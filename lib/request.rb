@@ -2,6 +2,22 @@ require 'digest'
 
 class Request
 
+  @@allowed_params = [
+                       :appid,
+                       :uid,
+                       :locale,
+                       :os_version,
+                       :timestamp,
+                       :hashkey,
+                       :apple_idfa,
+                       :apple_idfa_tracking_enabled,
+                       :ip,
+                       :page,
+                       :offer_types,
+                       :ps_time,
+                       :device,
+                       :device_id,
+                     ]
   def initialize
     @request_params = Hash.new
   end
@@ -15,6 +31,7 @@ class Request
   end
 
   def []=(key, value)
+    raise(ArgumentError, "Unknown parameter #{key}") unless @@allowed_params.include?(key) || key =~ /pub\d+/
     @request_params[key] = value
   end
 
