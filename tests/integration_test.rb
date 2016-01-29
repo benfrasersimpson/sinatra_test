@@ -34,4 +34,10 @@ class IntegrationTest < MiniTest::Test
     assert last_response.body.include? '<th>Thumbnail</th>'
     assert last_response.body.include? '<img'
   end
+
+  def test_page_does_not_exist
+    post '/offers/', { pub0: "test", page: 99999, uid: "player" }
+    assert last_response.ok?
+    assert last_response.body.include? "Error: A non-existing page was requested with the parameter page."
+  end
 end
