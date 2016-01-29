@@ -6,6 +6,11 @@ class TestRequest < Minitest::Test
     @request = Request.new
   end
   
+  def test_that_it_accepts_params
+    @request[:uid] = "player1"
+    assert_equal("player1", @request[:uid])
+  end
+
   def test_hash_key_correctly_calculated
     Request.api_key = "e95a21621a1865bcbae3bee89c4d4f84"
     
