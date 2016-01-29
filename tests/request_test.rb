@@ -11,6 +11,12 @@ class TestRequest < Minitest::Test
     assert_equal("player1", @request[:uid])
   end
 
+  def test_that_it_rejects_nonstandard_params
+    assert_raises(ArgumentError) {
+      @request[:nonstandard_param] = "foo"
+    }
+  end
+
   def test_hash_key_correctly_calculated
     Request.api_key = "e95a21621a1865bcbae3bee89c4d4f84"
     
