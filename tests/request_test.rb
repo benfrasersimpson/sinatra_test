@@ -46,4 +46,10 @@ class TestRequest < Minitest::Test
 
     assert_equal(expected_param_string, @request.send(:param_string, timestamp))
   end
+
+  def test_param_string_raises_exception_when_missing_required_params
+    assert_raises(ArgumentError) {
+      @request.send(:param_string)
+    }
+  end
 end
