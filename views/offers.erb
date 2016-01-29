@@ -1,0 +1,25 @@
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Payout</th>
+      <th>Thumbnail</th>
+    </tr>
+  </thead>
+  <tbody>  
+    <% @offers.each do |offer| %>
+      <tr>
+        <td>
+          <%= offer['title'] || "No Title" %>
+        </td>
+        <td>
+          <%= offer['payout'] || "No Payout" %>
+        </td>
+        <td>
+          <% img_url = offer['thumbnail']['lowres'] %>
+          <img src="<%= img_url %>" alt="<%= img_url %>" />
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
