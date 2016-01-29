@@ -12,6 +12,11 @@ class IntegrationTest < MiniTest::Test
     FyberServer    
   end
 
+  def setup
+    @config = YAML.load_file('config/secret.yml')
+    Request.api_key = @config["api_key"]
+  end
+
   def test_index
     get '/'
     assert last_response.ok?
@@ -23,6 +28,7 @@ class IntegrationTest < MiniTest::Test
   def test_offers_correct_request
     post '/offers/', { pub0: "test", page: 1, uid: "player" }
     assert last_response.ok?
+    puts last_response.body
     assert last_response.body.include? '<table>'
     assert last_response.body.include? '<th>Title</th>'
     assert last_response.body.include? '<th>Payout</th>'
