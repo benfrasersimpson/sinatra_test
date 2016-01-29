@@ -2,6 +2,13 @@ require 'digest'
 
 class Request
 
+  @@required_params = [
+                        :appid,
+                        :uid,
+                        :locale,
+                        :timestamp
+                      ]
+
   @@allowed_params = [
                        :appid,
                        :uid,
@@ -18,6 +25,7 @@ class Request
                        :device,
                        :device_id,
                      ]
+
   def initialize
     @request_params = Hash.new
   end
@@ -38,6 +46,10 @@ class Request
   def param_string(timestamp = Time.now.to_i)
     @request_params[:timestamp] = timestamp
 
+    if missing_required_params.any?
+      raise(ArgumentError, "Missing params #{missing_required_params.join(',')}")
+    end
+
     @request_params = @request_params.sort.to_h
     request_string = @request_params.map {|k,v| "#{k}=#{v}"}.join('&')
     hash_key = calculate_hash_key(request_string)
@@ -48,5 +60,9 @@ class Request
   def calculate_hash_key(request_string)
     request_string += "&#{@@api_key}"
     Digest::SHA1.hexdigest(request_string)
+  end
+
+  def missing_required_params
+    (@@required_params - @request_params.keys)
   end
 end
