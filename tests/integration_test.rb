@@ -13,8 +13,10 @@ class IntegrationTest < MiniTest::Test
   end
 
   def setup
-    @config = YAML.load_file('config/secret.yml')
-    Request.api_key = @config["api_key"]
+    unless ENV['fyber_api']
+      ENV['fyber_api'] = YAML.load_file('./config/secret.yml')['api_key']
+    end
+    Request.api_key = ENV["fyber_api"]
   end
 
   def test_index

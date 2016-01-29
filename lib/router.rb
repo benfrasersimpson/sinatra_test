@@ -4,12 +4,13 @@ require "uri"
 require 'json'
 require 'yaml'
 
+require './lib/request.rb'
+
 class FyberServer < Sinatra::Base
   set :views, 'views'
 
   def self.run!
-    @config = YAML.load_file('config/secret.yml')
-    Request.api_key = @config["api_key"]
+    Request.api_key = ENV['fyber_api']
     super
   end
 
