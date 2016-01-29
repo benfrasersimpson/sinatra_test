@@ -40,4 +40,11 @@ class IntegrationTest < MiniTest::Test
     assert last_response.ok?
     assert last_response.body.include? "Error: A non-existing page was requested with the parameter page."
   end
+
+  def test_offers_authentication_error
+    Request.api_key = "foo"
+    post '/offers/', { pub0: "test", page: 1, uid: "player" }
+    assert last_response.ok?
+    assert last_response.body.include? "Unauthorized: username and password set and correct?"
+  end
 end
