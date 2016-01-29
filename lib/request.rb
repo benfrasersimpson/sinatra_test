@@ -43,6 +43,11 @@ class Request
     @request_params[key] = value
   end
 
+  def request_url(format = "json")
+    raise(ArgumentError, "unknown format #{format}") unless %w[json xml].include? format
+    "http://api.fyber.com/feed/v1/offers.#{format}?#{param_string}"
+  end
+
   def param_string
     @request_params[:timestamp] ||= Time.now.to_i 
 
