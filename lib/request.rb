@@ -18,6 +18,16 @@ class Request
     @request_params[key] = value
   end
 
+  def param_string(timestamp = Time.now.to_i)
+    @request_params[:timestamp] = timestamp
+
+    @request_params = @request_params.sort.to_h
+    request_string = @request_params.map {|k,v| "#{k}=#{v}"}.join('&')
+    hash_key = calculate_hash_key(request_string)
+
+    request_string + "&hashkey=#{hash_key}"
+  end
+
   def calculate_hash_key(request_string)
     request_string += "&#{@@api_key}"
     Digest::SHA1.hexdigest(request_string)
