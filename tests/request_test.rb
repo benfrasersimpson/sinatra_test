@@ -17,6 +17,11 @@ class TestRequest < Minitest::Test
     }
   end
 
+  def test_request_accepts_pub_optional_params
+    @request[:pub0] = "foo"
+    @request[:pub4233] = "bar"
+  end
+
   def test_hash_key_correctly_calculated
     Request.api_key = "e95a21621a1865bcbae3bee89c4d4f84"
     
