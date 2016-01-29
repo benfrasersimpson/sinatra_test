@@ -28,7 +28,6 @@ class IntegrationTest < MiniTest::Test
   def test_offers_correct_request
     post '/offers/', { pub0: "test", page: 1, uid: "player" }
     assert last_response.ok?
-    puts last_response.body
     assert last_response.body.include? '<table>'
     assert last_response.body.include? '<th>Title</th>'
     assert last_response.body.include? '<th>Payout</th>'
