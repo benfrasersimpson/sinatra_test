@@ -47,8 +47,16 @@ class FyberServer < Sinatra::Base
     uri = URI.parse(request.request_url)
     response = Net::HTTP.get_response(uri)
 
-    json = JSON.parse(response.body)
-    handle_success(json)
+    case response
+    when Net::HTTPSuccess
+      json = JSON.parse(response.body)
+      handle_success(json)
+    when Net::HTTPUnauthorized
+      return "#{response.message}: username and password set and correct?"
+    when Net::HTTPServerError
+      return "#{response.message}: try again later?"
+    else
+      return response.message
+    end
   end
-
 end
