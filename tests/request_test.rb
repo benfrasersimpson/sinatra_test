@@ -40,11 +40,11 @@ class TestRequest < Minitest::Test
     @request[:ps_time] = 1312211903
     @request[:pub0] = "campaign2"
     @request[:page] = 2
+    @request[:timestamp] = 1312553361
 
     Request.api_key = "e95a21621a1865bcbae3bee89c4d4f84"
-    timestamp = 1312553361
 
-    assert_equal(expected_param_string, @request.send(:param_string, timestamp))
+    assert_equal(expected_param_string, @request.send(:param_string))
   end
 
   def test_param_string_raises_exception_when_missing_required_params
@@ -64,9 +64,9 @@ class TestRequest < Minitest::Test
     @request[:ps_time] = 1312211903
     @request[:pub0] = "campaign2"
     @request[:page] = 2
+    @request[:timestamp] = 1312553361
 
     Request.api_key = "e95a21621a1865bcbae3bee89c4d4f84"
-    timestamp = 1312553361
 
     assert_equal(expected_url, @request.request_url)
   end

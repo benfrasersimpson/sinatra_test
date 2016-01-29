@@ -43,8 +43,8 @@ class Request
     @request_params[key] = value
   end
 
-  def param_string(timestamp = Time.now.to_i)
-    @request_params[:timestamp] = timestamp
+  def param_string
+    @request_params[:timestamp] ||= Time.now.to_i 
 
     if missing_required_params.any?
       raise(ArgumentError, "Missing params #{missing_required_params.join(',')}")
